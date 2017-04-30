@@ -1,1 +1,0 @@
-javac *.java -cp ./*.jar
