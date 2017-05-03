@@ -146,7 +146,7 @@ public class GmapRender {
 	* 	Otherwise throw ArithmeticException.<p>
 	*/
 	public double[] px2latlon(int x, int y) {
-		if ((x<0)||(x>=this._res[0])||(y<0)||(this._res[1]>=y)) {
+		if ((x<0)||(x>=this._res[0])||(y<0)||(y>=this._res[1])) {
 			throw new ArithmeticException("ERR -- GmapRender.px2latlon -- Queried pixel outside valid range.");
 		}
 		int[]    c_imgpx = {this._res[0],this._res[1]};
