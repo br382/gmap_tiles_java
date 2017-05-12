@@ -7,7 +7,7 @@ import java.io.StringWriter;
 import java.util.Map;
 import java.util.HashMap;
 //External .jar source: javax.json.*
-//http://search.maven.org/remotecontent?filepath=javax/json/javax.json-api/1.0/javax.json-api-1.0.jar
+//https://repo1.maven.org/maven2/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar
 import javax.json.Json;
 import javax.json.JsonReader;
 import javax.json.JsonWriter;
@@ -51,6 +51,12 @@ class Sources {
         }
     }
     
+    /**
+    * Sources::openJson(String input) { return JsonObject; }
+    * <p>
+    * Notes:<p>
+    *   This family of functions converts a JSON filename, or string into a JSonObject.<p>
+    */
     public static JsonObject openJson(String input) {
         File fd = new File( input );
         JsonReader json_reader;
@@ -64,10 +70,15 @@ class Sources {
         } else {
             json_reader = Json.createReader(new StringReader(input ));
         }
-        json_reader.close();
         return json_reader.readObject();
     }
     
+    /**
+    * Sources::ppjson([String,JsonObject] input) { return String json.prettyprint(); }
+    * <p>
+    * Notes:<p>
+    *    Accepts JSON filename, string, or Object in this family of functions.
+    */
     public static String ppjson(String input) {
         return ppjson( openJson( input ) );
     }
@@ -77,13 +88,16 @@ class Sources {
         JsonWriterFactory    json_factory = Json.createWriterFactory( json_config );
         StringWriter         json_strwr   = new StringWriter();
         JsonWriter           json_writer  = json_factory.createWriter( json_strwr );
-        json_writer.writeObject( input );
-        json_writer.close();
-        return( json_writer.toString() );
+                             json_writer.writeObject( input );
+                             json_writer.close();
+        return(              json_strwr.toString() );
     }
     
     public static int hashJson(JsonObject json) {
-        return 0;
+        return ppjson( json ).hashCode();
+    }
+    public static int hashJson(String json) {
+        return ppjson( json ).hashCode();
     }
 
     public static void addSource(String filename, String type, String name, String prefix, String postfix, String x, String y, String zoom, String ext, String notes) {
@@ -98,15 +112,13 @@ class Sources {
     public static boolean rmSource(String filename, int uid) {
         return false;
     }
-    
+
     public static void main(String[] args) {
-        String fname = new String("./sources.json");
-        System.out.println( ppjson( fname ) );
-        /*
         String fname = "sources.json";
+        System.out.println( "Hash of " + fname + ": " + hashJson( openJson(fname) ) );
+        System.out.println( ppjson( fname ) );
         addSource(fname, "Satellite", "Test Source", "www.google.com/", "&fetch=True", "&x=", "&y=", "&z=", ".jpg", "Test source notes.");
-        ppjson(fname);
+        System.out.println( ppjson( fname ) );
         rmSource(fname,9090);
-        */
     }
 }

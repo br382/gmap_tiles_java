@@ -1,9 +1,9 @@
-jar_url='http://search.maven.org/remotecontent?filepath=javax/json/javax.json-api/1.0/javax.json-api-1.0.jar'
-jar_file=javax.json-api-1.0.jar
+jar_url='https://repo1.maven.org/maven2/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar'
+jar_file=$(shell echo $(jar_url)| rev | cut -d'/' -f 1 | rev)
 jars=./$(jar_file)
 
 
-all: setup build javadocs run clean
+all: setup clean build javadocs run
 
 setup:
 	wget $(jar_url) -nc -O $(jar_file) || echo ""
@@ -11,7 +11,12 @@ build:
 	javac $$(find ./*.java) -cp $(jars)
 javadocs:
 	javadoc *.java -cp $(jars) -d ./javadocs
-run: *.class
-	$$(for f in $(ls Unit*.class | cut -d'.' -f1); do java $(f); done)
+run:
+	for file in $$(find *.class | cut -d'.' -f1);\
+	do\
+	    echo "====== RUNNING $$file.class ======";\
+	    java -classpath .:$(jars) "$$file";\
+	    echo "";\
+	done
 clean:
 	rm ./*.class || echo "Nothing to clean."

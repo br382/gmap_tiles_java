@@ -192,7 +192,7 @@ public class GmapUtils {
 	}
 	
 	/**
-	* distanceTo(double[] {lat_a,lon_a, double[] {lat_b,lon_b}, double sphere_radius) { return (double)dist_km; }
+	* distanceTo(double[] {lat_a,lon_a}, double[] {lat_b,lon_b}, double sphere_radius) { return (double)dist_km; }
 	* <p>
 	* Notes:<p>
 	* 	Calculates the arc distance between two points by assuming the shell of sphere.<p>
@@ -272,7 +272,7 @@ public class GmapUtils {
 		int[] abspx_a     = latlon2abspx(zoom,coord_a[0],coord_a[1]);
                 int[] abspx_b     = latlon2abspx(zoom,coord_b[0],coord_b[1]);
                 int[] abspx_min   = { Math.min(abspx_a[0],abspx_b[0]), Math.min(abspx_a[1],abspx_b[1]) };
-                int[] abspx_max   = { Math.max(abspx_a[1],abspx_b[1]), Math.max(abspx_b[1],abspx_b[1]) };
+                int[] abspx_max   = { Math.max(abspx_a[0],abspx_b[0]), Math.max(abspx_b[1],abspx_b[1]) };
                 int[] abspx_count = { Math.abs(abspx_max[0]-abspx_min[0]+1), Math.abs(abspx_max[1]-abspx_min[1]+1) }; //inclusive range
                 return( new int[] { abspx_min[0],abspx_min[1],abspx_max[0],abspx_max[1],abspx_count[0],abspx_count[1] } );
 	}
@@ -321,10 +321,15 @@ public class GmapUtils {
 			center_px[1]      = center_px[1] - pixel_bound[1]; // change (0,0) from absolute px to composite image (0,0) domain
 			int[] offset_px   = {center_px[0]-(res_box[0]/2), center_px[1]-(res_box[1]/2)}; //difference betweeen composite image (0,0) and res_box (0,0) domain
 			int[] fit_px      = {center_px[0]+offset_px[0], center_px[1]+offset_px[1]}; //furthest (x,y) needed in composite image to fit res_box
-			if ((size_px[0]>fit_px[0])&&(fit_px[1]>fit_px[1])) { fits = true; }
+			if ((size_px[0]>fit_px[0])&&(size_px[1]>fit_px[1])) { fits = true; }
 			zoom += 1;
 			if (zoom>MAX_ZOOM) { break; }
 		}
 		return(zoom-1);
+	}
+
+    public static void main(String[] args) {
+        System.out.println("MSG -- GmapUtils -- No tests implimented here.");
+		return;
 	}
 }

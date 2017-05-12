@@ -324,4 +324,9 @@ public class GmapRender {
                            g.drawImage( in_image, this._compass_px[0], this._compass_px[1], this._compass_px[2], this._compass_px[3], null); //min_x, min_y, width, height
         return( layer );
 	}
+
+    public static void main(String[] args) {
+        System.out.println("MSG -- GmapRender -- No tests implimented here.");
+		return;
+	}
 }

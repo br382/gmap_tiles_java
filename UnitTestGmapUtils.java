@@ -33,7 +33,7 @@ public class UnitTestGmapUtils {
 			assert( (abspx[0]==coord_abspx[0])&&(abspx[1]==coord_abspx[0]) ); //lat-lon to abspx
 			assert( (tile[0]==coord_tile[0])&&(tile[0]==coord_tile[1]) ); //lat-long to tile
 			assert( Math.abs(coord[0]-abspx_coord[0])<err_abspx[0] && Math.abs(coord[1]-abspx_coord[1])<err_abspx[1]);//abspx to lat-long
-			assert( Math.abs(coord[0]-tile_coord[0])<err_tile[0] && Math.abs(coord[0]-tile_coord[1])<err_tile[1]); //tile to lat-long
+			assert( Math.abs(coord[0]-tile_coord[0])<err_tile[0] && Math.abs(coord[1]-tile_coord[1])<err_tile[1]); //tile to lat-long
 			assert( (tile[0]==abspx_tile[0])&&(tile[1]==abspx_tile[1]) ); //abspx to tile
 		}
 		System.out.format("MSG -- Tests Completed Successfully%n");
